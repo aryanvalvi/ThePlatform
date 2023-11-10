@@ -21,31 +21,11 @@ router.get(
     scope: ["profile"],
   })
 );
-router.get("/verify-token", (req, res) => {
-  const { token } = req.query;
-  if (!token) {
-    return res.status(400).json({ error: "Token not provided" });
-  }
-
-  // Verify the token and decode user information
-  jwt.verify(token, "adafafaraeaf", (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ error: "Invalid token" });
-    }
-
-    res.json({ user: decoded.user });
-  });
-});
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
   userdata = req.user;
-  const token = jwt.sign({ user: req.user }, "adafafaraeaf", {
-    expiresIn: "1h",
-  });
 
-  // res.cookie("jwtToken", token, { httpOnly: true });
-  res.redirect(`http://localhost:5173/?token=${token}`);
-  // res.redirect(`http://localhost:5173`);
+  res.redirect(`http://localhost:5173`);
 
   // res.json(req.user);
 });
